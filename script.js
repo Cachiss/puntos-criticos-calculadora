@@ -6,6 +6,7 @@ window.addEventListener("load", function() {
     applet.inject('ggb-element');
 });
 const functionForm = document.querySelector(".function-form");
+const derivadasCont = document.querySelector(".derivadas-container");
 
 functionForm.addEventListener("submit", async (e)=>{
     e.preventDefault();
@@ -16,11 +17,14 @@ functionForm.addEventListener("submit", async (e)=>{
     let derivadaX = await geoapp.evalCommandCAS(`Derivative(${fn},x)`);
     let derivadaY = await geoapp.evalCommandCAS(`Derivative(${fn},y)`);
 
+    
 
        //derivada 2do orden CAS
     let derivadaXX = await geoapp.evalCommandCAS(`Derivative(${derivadaX},x)`);
     let derivadaYY = await geoapp.evalCommandCAS(`Derivative(${derivadaY},y)`);
     let derivadaXY = await geoapp.evalCommandCAS(`Derivative(${derivadaX},y)`);
+
+    
 
 
     //Solve dx y dy de 1er orden igualadas a 0
@@ -52,4 +56,23 @@ functionForm.addEventListener("submit", async (e)=>{
 
     //graficar punto 2
     geoapp.evalCommand(`B=(${x2},${y2},${z2})`);
+
+    derivadasCont.innerHTML= `
+        <h3>1ra Derivada en X </h3>
+        <p>g(x,y)= ${derivadaX}</p>
+        <h3>1ra Derivada en Y </h3>
+        <p>h(x,y)= ${derivadaY}</p>
+        <h3>Derivada en XX </h3>
+        <p>g2(x,y)= ${derivadaXX}</p>
+        <h3>Derivada en YY </h3>
+        <p>h2(x,y)= ${derivadaYY}</p>
+        <h3>Derivada en XY </h3>
+        <p>g3(x,y)= ${derivadaXY}</p>
+
+        <h3>Puntos Críticos </h3>
+        <p>A=(${x1},${y1},${z1})</p>
+        <p>B=(${x2},${y2},${z2})</p>
+
+    `;
+    console.log("finish")
 });
